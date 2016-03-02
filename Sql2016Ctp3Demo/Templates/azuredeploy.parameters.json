@@ -4,6 +4,18 @@
   "parameters": {
     "Location": {
       "value": "East US"
-    }
+    },
+      "Sql2016Ctp3DemoName": {
+          "value": "sql2016ctp3demo"
+      },
+      "Sql2016Ctp3DemoAdminUserName": {
+          "value": "jgardner"
+      },
+      "Sql2016Ctp3DemoIpDnsName": {
+          "value": "sql2016ctp3demo"
+      },
+      "projectName": {
+          "value": "sql2016ctp3demo"
+      }
   }
 }

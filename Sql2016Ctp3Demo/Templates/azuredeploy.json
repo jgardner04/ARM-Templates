@@ -32,7 +32,8 @@
     },
     "Sql2016Ctp3DemoName": {
       "type": "string",
-      "minLength": 1
+      "minLength": 1,
+      "maxLength": 15
     },
     "Sql2016Ctp3DemoAdminUserName": {
       "type": "string",
@@ -66,7 +67,7 @@
     }
   },
   "variables": {
-    "sql2016ctp3demoName": "[concat('sql2016ctp3demo', uniqueString(resourceGroup().id))]",
+    "sql2016ctp3demoName": "[concat('sql2016demo', uniqueString(resourceGroup().id))]",
     "Sql2016Ctp3DemoPrefix": "10.0.0.0/16",
     "Sql2016Ctp3DemoSubnet1Name": "Subnet-1",
     "Sql2016Ctp3DemoSubnet1Prefix": "10.0.0.0/24",
@@ -75,7 +76,7 @@
     "Sql2016Ctp3DemoImagePublisher": "MicrosoftSQLServer",
     "Sql2016Ctp3DemoImageOffer": "SQL2016CTP3.3-WS2012R2",
     "Sql2016Ctp3DemoOSDiskName": "Sql2016Ctp3DemoOSDisk",
-    "Sql2016Ctp3DemoWindowsOSVersion": "Evaluation",
+    "SQLServer2016DemoImageSku": "Evaluation",
     "Sql2016Ctp3DemoVmSize": "Standard_D1",
     "Sql2016Ctp3DemoVnetID": "[resourceId('Microsoft.Network/virtualNetworks', 'Sql2016Ctp3Demo')]",
     "Sql2016Ctp3DemoSubnetRef": "[concat(variables('Sql2016Ctp3DemoVnetID'), '/subnets/', variables('Sql2016Ctp3DemoSubnet1Name'))]",
@@ -85,169 +86,169 @@
     "deploySql2016Ctp3ScriptFolder": "[concat(parameters('projectName'), '/', 'CustomScripts')]",
     "deploySql2016Ctp3ScriptFileName": "deploySql2016Ctp3.ps1"
   },
-    "resources": [
-        {
-            "name": "[variables('sql2016ctp3demoName')]",
-            "type": "Microsoft.Storage/storageAccounts",
-            "location": "[resourceGroup().location]",
-            "apiVersion": "2015-06-15",
-            "dependsOn": [ ],
-            "tags": {
-                "displayName": "sql2016ctp3demo"
-            },
-            "properties": {
-                "accountType": "[parameters('sql2016ctp3demoType')]"
-            }
+  "resources": [
+    {
+      "name": "[variables('sql2016ctp3demoName')]",
+      "type": "Microsoft.Storage/storageAccounts",
+      "location": "[resourceGroup().location]",
+      "apiVersion": "2015-06-15",
+      "dependsOn": [ ],
+      "tags": {
+        "displayName": "sql2016ctp3demo"
+      },
+      "properties": {
+        "accountType": "[parameters('sql2016ctp3demoType')]"
+      }
+    },
+    {
+      "name": "Sql2016Ctp3Demo",
+      "type": "Microsoft.Network/virtualNetworks",
+      "location": "[resourceGroup().location]",
+      "apiVersion": "2015-06-15",
+      "dependsOn": [ ],
+      "tags": {
+        "displayName": "Sql2016Ctp3Demo"
+      },
+      "properties": {
+        "addressSpace": {
+          "addressPrefixes": [
+            "[variables('Sql2016Ctp3DemoPrefix')]"
+          ]
         },
-        {
-            "name": "Sql2016Ctp3Demo",
-            "type": "Microsoft.Network/virtualNetworks",
-            "location": "[resourceGroup().location]",
-            "apiVersion": "2015-06-15",
-            "dependsOn": [ ],
-            "tags": {
-                "displayName": "Sql2016Ctp3Demo"
-            },
+        "subnets": [
+          {
+            "name": "[variables('Sql2016Ctp3DemoSubnet1Name')]",
             "properties": {
-                "addressSpace": {
-                    "addressPrefixes": [
-                        "[variables('Sql2016Ctp3DemoPrefix')]"
-                    ]
-                },
-                "subnets": [
-                    {
-                        "name": "[variables('Sql2016Ctp3DemoSubnet1Name')]",
-                        "properties": {
-                            "addressPrefix": "[variables('Sql2016Ctp3DemoSubnet1Prefix')]"
-                        }
-                    },
-                    {
-                        "name": "[variables('Sql2016Ctp3DemoSubnet2Name')]",
-                        "properties": {
-                            "addressPrefix": "[variables('Sql2016Ctp3DemoSubnet2Prefix')]"
-                        }
-                    }
-                ]
+              "addressPrefix": "[variables('Sql2016Ctp3DemoSubnet1Prefix')]"
             }
-        },
-        {
-            "name": "[variables('Sql2016Ctp3DemoNicName')]",
-            "type": "Microsoft.Network/networkInterfaces",
-            "location": "[resourceGroup().location]",
-            "apiVersion": "2015-06-15",
-            "dependsOn": [
-                "[concat('Microsoft.Network/virtualNetworks/', 'Sql2016Ctp3Demo')]",
-                "[concat('Microsoft.Network/publicIPAddresses/', variables('Sql2016Ctp3DemoIpName'))]"
-            ],
-            "tags": {
-                "displayName": "Sql2016Ctp3DemoNic"
-            },
+          },
+          {
+            "name": "[variables('Sql2016Ctp3DemoSubnet2Name')]",
             "properties": {
-                "ipConfigurations": [
-                    {
-                        "name": "ipconfig1",
-                        "properties": {
-                            "privateIPAllocationMethod": "Dynamic",
-                            "subnet": {
-                                "id": "[variables('Sql2016Ctp3DemoSubnetRef')]"
-                            },
-                            "publicIPAddress": {
-                                "id": "[resourceId('Microsoft.Network/publicIPAddresses', variables('Sql2016Ctp3DemoIpName'))]"
-                            }
-                        }
-                    }
-                ]
+              "addressPrefix": "[variables('Sql2016Ctp3DemoSubnet2Prefix')]"
             }
-        },
-        {
-            "name": "[parameters('Sql2016Ctp3DemoName')]",
-            "type": "Microsoft.Compute/virtualMachines",
-            "location": "[resourceGroup().location]",
-            "apiVersion": "2015-06-15",
-            "dependsOn": [
-                "[concat('Microsoft.Storage/storageAccounts/', variables('sql2016ctp3demoName'))]",
-                "[concat('Microsoft.Network/networkInterfaces/', variables('Sql2016Ctp3DemoNicName'))]"
-            ],
-            "tags": {
-                "displayName": "Sql2016Ctp3Demo"
-            },
+          }
+        ]
+      }
+    },
+    {
+      "name": "[variables('Sql2016Ctp3DemoNicName')]",
+      "type": "Microsoft.Network/networkInterfaces",
+      "location": "[resourceGroup().location]",
+      "apiVersion": "2015-06-15",
+      "dependsOn": [
+        "[concat('Microsoft.Network/virtualNetworks/', 'Sql2016Ctp3Demo')]",
+        "[concat('Microsoft.Network/publicIPAddresses/', variables('Sql2016Ctp3DemoIpName'))]"
+      ],
+      "tags": {
+        "displayName": "Sql2016Ctp3DemoNic"
+      },
+      "properties": {
+        "ipConfigurations": [
+          {
+            "name": "ipconfig1",
             "properties": {
-                "hardwareProfile": {
-                    "vmSize": "[variables('Sql2016Ctp3DemoVmSize')]"
-                },
-                "osProfile": {
-                    "computerName": "[parameters('Sql2016Ctp3DemoName')]",
-                    "adminUsername": "[parameters('Sql2016Ctp3DemoAdminUsername')]",
-                    "adminPassword": "[parameters('Sql2016Ctp3DemoAdminPassword')]"
-                },
-                "storageProfile": {
-                    "imageReference": {
-                        "publisher": "[variables('Sql2016Ctp3DemoImagePublisher')]",
-                        "offer": "[variables('Sql2016Ctp3DemoImageOffer')]",
-                        "sku": "[parameters('Sql2016Ctp3DemoWindowsOSVersion')]",
-                        "version": "latest"
-                    },
-                    "osDisk": {
-                        "name": "Sql2016Ctp3DemoOSDisk",
-                        "vhd": {
-                            "uri": "[concat('http://', variables('sql2016ctp3demoName'), '.blob.core.windows.net/', variables('Sql2016Ctp3DemoStorageAccountContainerName'), '/', variables('Sql2016Ctp3DemoOSDiskName'), '.vhd')]"
-                        },
-                        "caching": "ReadWrite",
-                        "createOption": "FromImage"
-                    }
-                },
-                "networkProfile": {
-                    "networkInterfaces": [
-                        {
-                            "id": "[resourceId('Microsoft.Network/networkInterfaces', variables('Sql2016Ctp3DemoNicName'))]"
-                        }
-                    ]
-                }
-            },
-            "resources": [
-                {
-                    "name": "deploySql2016Ctp3",
-                    "type": "extensions",
-                    "location": "[resourceGroup().location]",
-                    "apiVersion": "2015-06-15",
-                    "dependsOn": [
-                        "[concat('Microsoft.Compute/virtualMachines/', parameters('Sql2016Ctp3DemoName'))]"
-                    ],
-                    "tags": {
-                        "displayName": "deploySql2016Ctp3"
-                    },
-                    "properties": {
-                        "publisher": "Microsoft.Compute",
-                        "type": "CustomScriptExtension",
-                        "typeHandlerVersion": "1.4",
-                        "autoUpgradeMinorVersion": true,
-                        "settings": {
-                            "fileUris": [
-                                "[concat(parameters('_artifactsLocation'), '/', variables('deploySql2016Ctp3ScriptFolder'), '/', variables('deploySql2016Ctp3ScriptFileName'), parameters('_artifactsLocationSasToken'))]"
-                            ],
-                            "commandToExecute": "[concat('powershell -ExecutionPolicy Unrestricted -File ', variables('deploySql2016Ctp3ScriptFolder'), '/', variables('deploySql2016Ctp3ScriptFileName'))]"
-                        }
-                    }
-                }
-            ]
-        },
-        {
-            "name": "[variables('Sql2016Ctp3DemoIpName')]",
-            "type": "Microsoft.Network/publicIPAddresses",
-            "location": "[resourceGroup().location]",
-            "apiVersion": "2015-06-15",
-            "dependsOn": [ ],
-            "tags": {
-                "displayName": "Sql2016Ctp3DemoIp"
-            },
-            "properties": {
-                "publicIPAllocationMethod": "Dynamic",
-                "dnsSettings": {
-                    "domainNameLabel": "[parameters('Sql2016Ctp3DemoIpDnsName')]"
-                }
+              "privateIPAllocationMethod": "Dynamic",
+              "subnet": {
+                "id": "[variables('Sql2016Ctp3DemoSubnetRef')]"
+              },
+              "publicIPAddress": {
+                "id": "[resourceId('Microsoft.Network/publicIPAddresses', variables('Sql2016Ctp3DemoIpName'))]"
+              }
             }
+          }
+        ]
+      }
+    },
+    {
+      "name": "[parameters('Sql2016Ctp3DemoName')]",
+      "type": "Microsoft.Compute/virtualMachines",
+      "location": "[resourceGroup().location]",
+      "apiVersion": "2015-06-15",
+      "dependsOn": [
+        "[concat('Microsoft.Storage/storageAccounts/', variables('sql2016ctp3demoName'))]",
+        "[concat('Microsoft.Network/networkInterfaces/', variables('Sql2016Ctp3DemoNicName'))]"
+      ],
+      "tags": {
+        "displayName": "Sql2016Ctp3Demo"
+      },
+      "properties": {
+        "hardwareProfile": {
+          "vmSize": "[variables('Sql2016Ctp3DemoVmSize')]"
+        },
+        "osProfile": {
+          "computerName": "[parameters('Sql2016Ctp3DemoName')]",
+          "adminUsername": "[parameters('Sql2016Ctp3DemoAdminUsername')]",
+          "adminPassword": "[parameters('Sql2016Ctp3DemoAdminPassword')]"
+        },
+        "storageProfile": {
+          "imageReference": {
+            "publisher": "[variables('Sql2016Ctp3DemoImagePublisher')]",
+            "offer": "[variables('Sql2016Ctp3DemoImageOffer')]",
+            "sku": "[variables('SQLServer2016DemoImageSku')]",
+            "version": "latest"
+          },
+          "osDisk": {
+            "name": "Sql2016Ctp3DemoOSDisk",
+            "vhd": {
+              "uri": "[concat('http://', variables('sql2016ctp3demoName'), '.blob.core.windows.net/', variables('Sql2016Ctp3DemoStorageAccountContainerName'), '/', variables('Sql2016Ctp3DemoOSDiskName'), '.vhd')]"
+            },
+            "caching": "ReadWrite",
+            "createOption": "FromImage"
+          }
+        },
+        "networkProfile": {
+          "networkInterfaces": [
+            {
+              "id": "[resourceId('Microsoft.Network/networkInterfaces', variables('Sql2016Ctp3DemoNicName'))]"
+            }
+          ]
         }
-    ],
+      },
+      "resources": [
+        {
+          "name": "deploySql2016Ctp3",
+          "type": "extensions",
+          "location": "[resourceGroup().location]",
+          "apiVersion": "2015-06-15",
+          "dependsOn": [
+            "[concat('Microsoft.Compute/virtualMachines/', parameters('Sql2016Ctp3DemoName'))]"
+          ],
+          "tags": {
+            "displayName": "deploySql2016Ctp3"
+          },
+          "properties": {
+            "publisher": "Microsoft.Compute",
+            "type": "CustomScriptExtension",
+            "typeHandlerVersion": "1.4",
+            "autoUpgradeMinorVersion": true,
+            "settings": {
+              "fileUris": [
+                "https://raw.githubusercontent.com/jgardner04/Sql2016Ctp3Demo/master/Sql2016Ctp3Demo/CustomScripts/deploySql2016Ctp3.ps1"
+              ],
+              "commandToExecute": "powershell.exe -ExecutionPolicy Unrestricted -File deploySql2016Ctp3.ps1"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "[variables('Sql2016Ctp3DemoIpName')]",
+      "type": "Microsoft.Network/publicIPAddresses",
+      "location": "[resourceGroup().location]",
+      "apiVersion": "2015-06-15",
+      "dependsOn": [ ],
+      "tags": {
+        "displayName": "Sql2016Ctp3DemoIp"
+      },
+      "properties": {
+        "publicIPAllocationMethod": "Dynamic",
+        "dnsSettings": {
+          "domainNameLabel": "[parameters('Sql2016Ctp3DemoIpDnsName')]"
+        }
+      }
+    }
+  ],
     "outputs": {
     }
 }
