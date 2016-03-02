@@ -41,11 +41,11 @@ Import-Module SQLPS -DisableNameChecking
 cd \sql\localhost\
 
 Invoke-Sqlcmd -Query "USE [master]
-RESTORE DATABASE [AdventureWorks2016CTP3] FROM  DISK = N'C:\Program Files\Microsoft SQL Server\MSSQL13.MSSQLSERVER\MSSQL\Backup\AdventureWorks2016CTP3.bak' WITH  FILE = 1,  MOVE N'AdventureWorks2016CTP3_Data' TO N'F:\DATA\AdventureWorks2016CTP3_Data.mdf',  MOVE N'AdventureWorks2016CTP3_Log' TO N'F:\LOG\AdventureWorks2016CTP3_Log.ldf',  MOVE N'AdventureWorks2016CTP3_mod' TO N'F:\DATA\AdventureWorks2016CTP3_mod',  NOUNLOAD,  REPLACE,  STATS = 5
+RESTORE DATABASE [AdventureWorks2016CTP3] FROM  DISK = N'C:\Program Files\Microsoft SQL Server\MSSQL13.MSSQLSERVER\MSSQL\Backup\AdventureWorks2016CTP3.bak' WITH  FILE = 1,  MOVE N'AdventureWorks2016CTP3_Data' TO N'C:\Program Files\Microsoft SQL Server\MSSQL13.MSSQLSERVER\MSSQL\DATA\AdventureWorks2016CTP3_Data.mdf',  MOVE N'AdventureWorks2016CTP3_Log' TO N'C:\Program Files\Microsoft SQL Server\MSSQL13.MSSQLSERVER\MSSQL\DATA\AdventureWorks2016CTP3_Log.ldf',  MOVE N'AdventureWorks2016CTP3_mod' TO N'C:\Program Files\Microsoft SQL Server\MSSQL13.MSSQLSERVER\MSSQL\DATA\AdventureWorks2016CTP3_mod',  NOUNLOAD,  REPLACE,  STATS = 5
 
 GO" -ServerInstance LOCALHOST -QueryTimeout 0
 
 Invoke-Sqlcmd -Query "USE [master]
-	RESTORE DATABASE [AdventureworksDW2016CTP3] FROM  DISK = N'C:\Program Files\Microsoft SQL Server\MSSQL13.MSSQLSERVER\MSSQL\Backup\AdventureWorksDW2016CTP3.bak' WITH  FILE = 1,  MOVE N'AdventureWorksDW2014_Data' TO N'F:\DATA\AdventureWorksDW2016CTP3_Data.mdf',  MOVE N'AdventureWorksDW2014_Log' TO N'F:\LOG\AdventureWorksDW2016CTP3_Log.ldf',  NOUNLOAD,  REPLACE,  STATS = 5
+	RESTORE DATABASE [AdventureworksDW2016CTP3] FROM  DISK = N'C:\Program Files\Microsoft SQL Server\MSSQL13.MSSQLSERVER\MSSQL\Backup\AdventureWorksDW2016CTP3.bak' WITH  FILE = 1,  MOVE N'AdventureWorksDW2014_Data' TO N'C:\Program Files\Microsoft SQL Server\MSSQL13.MSSQLSERVER\MSSQL\DATA\AdventureWorksDW2016CTP3_Data.mdf',  MOVE N'AdventureWorksDW2014_Log' TO N'C:\Program Files\Microsoft SQL Server\MSSQL13.MSSQLSERVER\MSSQL\DATA\AdventureWorksDW2016CTP3_Log.ldf',  NOUNLOAD,  REPLACE,  STATS = 5
 
 	GO" -ServerInstance LOCALHOST -QueryTimeout 0

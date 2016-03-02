@@ -193,7 +193,7 @@
             "vhd": {
               "uri": "[concat('http://', variables('sql2016ctp3demoName'), '.blob.core.windows.net/', variables('Sql2016Ctp3DemoStorageAccountContainerName'), '/', variables('Sql2016Ctp3DemoOSDiskName'), '.vhd')]"
             },
-            "caching": "ReadWrite",
+            "caching": "ReadOnly",
             "createOption": "FromImage"
           }
         },
