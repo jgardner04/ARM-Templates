@@ -3,25 +3,25 @@
     "contentVersion": "1.0.0.0",
     "parameters": {
         "storageAccountName": {
-            "value": "jagarmcopy"
+            "value": "armcopy"
         },
         "vmName": {
             "value": "armCopy"
         },
         "adminUserName": {
-            "value": "jgardner"
+            "value": "admin"
         },
         "dnsLabelPrefix": {
-            "value": "jagarmcopy"
+            "value": "armcopy"
         },
       "vmCopies": {
         "value": 2
       },
         "domainToJoin": {
-            "value": "armTesting.com"
+            "value": "contoso.com"
         },
         "domainUsername": {
-            "value": "jgardner"
+            "value": "admin"
         },
         "ouPath": {
             "value": ""
@@ -38,19 +38,19 @@
         "adminPassword": {
             "reference": {
                 "keyVault": {
-                    "id": "/subscriptions/11b7a8e9-c2f7-4394-82e3-f5dac0731961/resourceGroups/DemoAndTesting/providers/Microsoft.KeyVault/vaults/DemoAndTestingKeyVault"
+                    "id": ""
                 },
                 "secretName": "armCopy"
             }
         },
         "customImageName": {
-            "value": "template-osDisk.1c46e560-97b8-4f5e-9993-f8d762a82380.vhd"
+            "value": "template-osDisk.vhd"
         },
         "sourceImageURI": {
-            "value": "https://jaggoldimage.blob.core.windows.net/system/Microsoft.Compute/Images/goldimage/template-osDisk.1c46e560-97b8-4f5e-9993-f8d762a82380.vhd"
+            "value": "https://<<blogname>>.blob.core.windows.net/system/Microsoft.Compute/Images/goldimage/template-osDisk.1c46e560-97b8-4f5e-9993-f8d762a82380.vhd"
         },
         "sourceStorageAccountResourceGroup": {
-            "value": "hyattdemo"
+            "value": "demo"
         },
         "customImageStorageContainer": {
             "value": "goldimage"
