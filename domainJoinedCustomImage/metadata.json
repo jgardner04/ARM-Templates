@@ -1,0 +1,7 @@
+{
+	"itemDisplayName": "Deploy n Number of Custom VMs and join them to a domain",
+	"description": "This template allows you to create multiple VMs from a custom image and join them to the domain.",
+	"summary": "Deploy domain join VMs from custom image.",
+	"githubUsername": "jgardner04",
+	"dateUpdated": "2016-07-15"
+}
