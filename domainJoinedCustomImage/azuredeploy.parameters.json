@@ -47,7 +47,7 @@
             "value": "template-osDisk.vhd"
         },
         "sourceImageURI": {
-            "value": "https://<<blogname>>.blob.core.windows.net/system/Microsoft.Compute/Images/goldimage/template-osDisk.1c46e560-97b8-4f5e-9993-f8d762a82380.vhd"
+            "value": "https://<<blobname>>.blob.core.windows.net/system/Microsoft.Compute/Images/goldimage/template-osDisk.1c46e560-97b8-4f5e-9993-f8d762a82380.vhd"
         },
         "sourceStorageAccountResourceGroup": {
             "value": "demo"
